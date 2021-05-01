@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     list_model = new QStringListModel(this);
-    QString filepath = "/Users/filip/Desktop/INFA/EGUI/RecipePlanner/data.json";
+    QString filepath = "/Users/filip/Desktop/INFA/EGUI/github-korzefi/QT/data.json";
     try {
         parser = new RecipeParser();
         file_handler = new FileHandler(parser, filepath);
