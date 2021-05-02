@@ -13,22 +13,23 @@ namespace recipe_planer.Models
             cooking_list = new List<Recipe>();
         }
 
+
+        // TODO check this out
         public void AddRecipe(Recipe recipe)
         {
             cooking_list.Add(recipe);
+            AddToIngredients(recipe.Ingredients);
         }
 
         public void RemoveRecipe(Recipe recipe)
         {
             cooking_list.Remove(recipe);
+            RemoveFromIngredients(recipe.Ingredients);
         }
 
-        public List<Ingredient> GetSummmedUpIngredients()
+        private void UpdateIngredients(UpdateOption option, List<Ingredient> ingredients)
         {
-            CreateSummedUpIngredientsList();
-            var result = summed_ingredients;
-            summed_ingredients.Clear();
-            return result;
+            
         }
 
         // TODO SPRAWDZIC PRZEKAZYWANIE I PRZYPISYWANIE JAKO REFERENCJA, MOZE NIE DZIALAC!!!!!!!
