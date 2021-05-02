@@ -5,4 +5,7 @@
     <RootNamespace>recipe_planer</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Recipe\" />
+  </ItemGroup>
 </Project>
