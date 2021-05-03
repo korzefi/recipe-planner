@@ -13,8 +13,14 @@ namespace recipe_planer.Controllers
         public IActionResult Index()
         {
             // TODO load all recipes name here and pass it to View
-            var recipe = new Recipe("example");
-       
+            Recipe recipe1 = new Recipe("example1");
+            Recipe recipe2 = new Recipe("example2");
+
+            var recipes = new RecipeHandler();
+            recipes.AddRecipe(recipe1);
+            recipes.AddRecipe(recipe2);
+
+
             return View(recipe);
             //return RedirectToAction("Index", "Home"); // redirects to index page of home
         }

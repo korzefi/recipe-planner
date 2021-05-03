@@ -8,4 +8,7 @@
   <ItemGroup>
     <Folder Include="Views\Recipe\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="recipes.json" />
+  </ItemGroup>
 </Project>

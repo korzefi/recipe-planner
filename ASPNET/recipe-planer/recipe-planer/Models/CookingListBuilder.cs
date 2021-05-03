@@ -14,52 +14,18 @@ namespace recipe_planer.Models
         }
 
 
-        // TODO check this out
+        // TODO decide whether update after EACH add/remove or EVERYTHING on one action
         public void AddRecipe(Recipe recipe)
         {
             cooking_list.Add(recipe);
-            AddToIngredients(recipe.Ingredients);
+            //AddToIngredients(recipe.Ingredients);
         }
 
         public void RemoveRecipe(Recipe recipe)
         {
             cooking_list.Remove(recipe);
-            RemoveFromIngredients(recipe.Ingredients);
+            //RemoveFromIngredients(recipe.Ingredients);
         }
-
-        private void UpdateIngredients(UpdateOption option, List<Ingredient> ingredients)
-        {
-            
-        }
-
-        // TODO SPRAWDZIC PRZEKAZYWANIE I PRZYPISYWANIE JAKO REFERENCJA, MOZE NIE DZIALAC!!!!!!!
-        private void CreateSummedUpIngredientsList()
-        {
-            for (int i=0; i<cooking_list.Count; i++)
-            {
-                SumUpIngredients(ref cooking_list[i].Ingredients);
-            }
-            
-        }
-
-        private void SumUpIngredients(ref List<Ingredient> ingredients)
-        {
-            foreach (Ingredient current_ingredient in ingredients) {
-                AddIngredientToSummedList(current_ingredient);
-            }
-        }
-
-        private void AddIngredientToSummedList(Ingredient current_ingredient)
-        {
-            for (int i=0; i<summed_ingredients.Count; i++)
-
-            foreach (Ingredient summed_ingredient in summed_ingredients)
-            {
-                if (summed_ingredients[i] == current_ingredient)
-                {
-                    summed_ingredients[i].Amount += current_ingredient.Amount;
-                    return;
-                }
-            }
     }
+           // TODO SPRAWDZIC PRZEKAZYWANIE I PRZYPISYWANIE JAKO REFERENCJA, MOZE NIE DZIALAC!!!!!!
 }

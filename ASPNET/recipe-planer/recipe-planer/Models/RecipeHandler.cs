@@ -4,16 +4,16 @@ namespace recipe_planer.Models
 {
     public class RecipeHandler
     {
-        private List<Recipe> Recipes { get; set; }
+        private List<Recipe> recipes;
 
         public void AddRecipe(Recipe recipe)
         {
-            Recipes.Add(recipe);
+            recipes.Add(recipe);
         }
 
         public void RemoveRecipe(Recipe recipe)
         {
-            Recipes.Remove(recipe);
+            recipes.Remove(recipe);
         }
 
         public RecipeHandler() {}

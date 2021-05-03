@@ -4,29 +4,29 @@ namespace recipe_planer.Models
 {
     public class Recipe : IEquatable<Recipe>
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public List<Ingredient> Ingredients { get; set; }
+        public string name;
+        public string description;
+        public List<Ingredient> ingredients;
 
         public Recipe(string Name)
         {
-            this.Name = Name;
-            this.Description = "";
-            this.Ingredients = new List<Ingredient>();
+            this.name = Name;
+            this.description = "";
+            this.ingredients = new List<Ingredient>();
         }
 
         public Recipe(string Name, string Description)
         {
-            this.Name = Name;
-            this.Description = Description;
-            this.Ingredients = new List<Ingredient>();
+            this.name = Name;
+            this.description = Description;
+            this.ingredients = new List<Ingredient>();
         }
 
         public Recipe(string Name, string Description, List<Ingredient> Ingredients)
         {
-            this.Name = Name;
-            this.Description = Description;
-            this.Ingredients = Ingredients;
+            this.name = Name;
+            this.description = Description;
+            this.ingredients = Ingredients;
         }
 
         public static bool operator ==(Recipe LHS, Recipe RHS)
@@ -41,7 +41,7 @@ namespace recipe_planer.Models
 
         public bool Equals(Recipe other)
         {
-            return this.Name.Equals(other.Name);
+            return this.name.Equals(other.name);
         }
 
         public override bool Equals(object other)
