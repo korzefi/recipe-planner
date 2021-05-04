@@ -9,6 +9,9 @@
     <Folder Include="Views\Recipe\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="recipes.json" />
   </ItemGroup>
 </Project>

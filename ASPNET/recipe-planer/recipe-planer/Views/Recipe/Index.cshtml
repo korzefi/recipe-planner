@@ -5,4 +5,9 @@
 }
 
 <h2>Recipes</h2>
-@*<p>@foreach(var recipe in recipes)</p>*@
+<ul>
+    @foreach(var recipe in Model.Recipes)
+            {
+                <li>@recipe.name</li>
+            }
+</ul>

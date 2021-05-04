@@ -20,12 +20,20 @@ namespace recipe_planer.Controllers
 
         public IActionResult Index()
         {
+            // TODO load recipes from file - FileHandler
+            // TODO pass list of recipes to View - var recipes = FileHandler::GetRecipes()
+
+
             return View();
         }
 
         public IActionResult Privacy()
         {
-            return View();
+            var filepath = "/Users/filip/Desktop/INFA/EGUI/github-korzefi/ASPNET/recipe-planer/recipe-planer/recipes.json";
+            RecipeHandler recipes = new RecipeHandler(filepath);
+            recipes.loadJsonFile();
+
+            return View(recipes);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

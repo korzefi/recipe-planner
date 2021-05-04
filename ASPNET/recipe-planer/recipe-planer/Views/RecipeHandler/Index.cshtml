@@ -1,9 +1,8 @@
 ﻿@model recipe_planer.Models.RecipeHandler
-
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
 
 <h3>Names</h3>
 <ul>
@@ -27,10 +26,9 @@
     {
         @foreach (var ingredient in recipe.ingredients)
         {
-            string name = ingredient.name;
             string amount = Convert.ToString(ingredient.amount);
             string unit = ingredient.unit;
-            string built_ingredient = name + ": " + amount + " " + unit;
+            string built_ingredient = amount + " " + unit;
             <li>@built_ingredient</li>
         }
     }
