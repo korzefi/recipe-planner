@@ -30,13 +30,18 @@ namespace recipe_planer.Controllers
         {
             var filepath = "/Users/filip/Desktop/INFA/EGUI/github-korzefi/ASPNET/recipe-planer/recipe-planer/recipes.json";
             RecipeHandler recipes = new RecipeHandler(filepath);
-            var ingredient_list = new List<Ingredient>();
-            ingredient_list.Add(new Ingredient("ingredient", 3.0, "pcs"));
-            recipes.addRecipe(new Recipe("test_recipe", "with some\nmultiline description", ingredient_list));
-            recipes.saveJsonFile();
+            //var ingredient_list = new List<Ingredient>();
+            //ingredient_list.Add(new Ingredient("ingredient", 3.0, "pcs"));
+            //recipes.addRecipe(new Recipe("test_recipe", "with some\nmultiline description", ingredient_list));
+            //recipes.saveJsonFile();
             recipes.loadJsonFile();
+            CookingListBuilder cooking_list = new CookingListBuilder();
+            cooking_list.AddRecipe(recipes.Recipes[0]);
+            cooking_list.AddRecipe(recipes.Recipes[1]);
+            cooking_list.getSummedIngredients();
 
-            return View(recipes);
+            return View(cooking_list);
+            //return View(recipes);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
