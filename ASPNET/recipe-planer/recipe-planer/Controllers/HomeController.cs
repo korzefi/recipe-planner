@@ -23,7 +23,6 @@ namespace recipe_planer.Controllers
             // TODO load recipes from file - FileHandler
             // TODO pass list of recipes to View - var recipes = FileHandler::GetRecipes()
 
-
             return View();
         }
 
@@ -31,6 +30,10 @@ namespace recipe_planer.Controllers
         {
             var filepath = "/Users/filip/Desktop/INFA/EGUI/github-korzefi/ASPNET/recipe-planer/recipe-planer/recipes.json";
             RecipeHandler recipes = new RecipeHandler(filepath);
+            var ingredient_list = new List<Ingredient>();
+            ingredient_list.Add(new Ingredient("ingredient", 3.0, "pcs"));
+            recipes.addRecipe(new Recipe("test_recipe", "with some\nmultiline description", ingredient_list));
+            recipes.saveJsonFile();
             recipes.loadJsonFile();
 
             return View(recipes);

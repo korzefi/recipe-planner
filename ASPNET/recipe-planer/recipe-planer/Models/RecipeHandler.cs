@@ -16,6 +16,7 @@ namespace recipe_planer.Models
         {
             Recipes = new List<Recipe>();
             this.filepath = filepath;
+            data_object = new JObject();
         }
 
         public void addRecipe(Recipe recipe)
@@ -30,6 +31,7 @@ namespace recipe_planer.Models
 
         public void loadJsonFile()
         {
+            Recipes.Clear();
             string jsonString = File.ReadAllText(filepath);
             data_object = JObject.Parse(jsonString);
             fillRecipesWithNames();
@@ -37,10 +39,11 @@ namespace recipe_planer.Models
             fillRecipesWithIngredients();
         }
 
-        public void saveJsoFile()
+        public void saveJsonFile()
         {
-            FileStream fs = File.Create(filepath);
-            //fs.Write()
+            loadRecipesToObject();
+            string jsonResult = JsonConvert.SerializeObject(data_object, Formatting.Indented);
+            File.WriteAllText(filepath, jsonResult);
         }
 
         private void fillRecipesWithNames()
@@ -74,7 +77,6 @@ namespace recipe_planer.Models
         {
             string description = "";
             JToken description_json = data_object[recipe_name]["recipe"];
-            //var description_lines = data_object.Values<string>();
             JArray description_lines = JArray.Parse(description_json.ToString());
             foreach (var line in description_lines)
             {
@@ -131,6 +133,41 @@ namespace recipe_planer.Models
             string[] amount_unit_array = amount_with_unit.Split(' ');
             int unit_index = 1;
             return amount_unit_array[unit_index];
+        }
+
+        private void loadRecipesToObject()
+        {
+            data_object.RemoveAll();
+
+            foreach (var recipe in Recipes)
+            {
+                data_object[recipe.name] = buildJsonRecipe(recipe);
+            }
+        }
+
+        private JObject buildJsonRecipe(Recipe recipe)
+        {
+            JObject result = new JObject();
+            result["recipe"] = buildDescription(recipe.description);
+            foreach (var ingredient in recipe.ingredients)
+            {
+                string ingredient_value = buildIngredientValue(ingredient.amount, ingredient.unit);
+                result[ingredient.name] = ingredient_value;
+            }
+
+            return result;
+        }
+
+        private JArray buildDescription(string description)
+        {
+            JArray result = new JArray();
+            result.Add(description);
+            return result;
+        }
+
+        private string buildIngredientValue(double amount, string unit)
+        {
+            return amount.ToString() + " " + unit;
         }
     }
 }
