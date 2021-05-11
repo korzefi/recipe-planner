@@ -16,6 +16,7 @@ namespace recipe_planer.Controllers
 
         static RecipeHandler handler;
         static CookingListBuilder builder = new CookingListBuilder();
+        static List<Ingredient> ingr_to_be_added;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -103,6 +104,7 @@ namespace recipe_planer.Controllers
             //recipes.addRecipe(new Recipe("test_recipe", "with some\nmultiline description", ingredient_list));
             //recipes.saveJsonFile();
             builder.AvailableRecipes = handler.Recipes;
+            builder.sumUpIngredients();
 
             return View(builder);
         }
@@ -118,6 +120,14 @@ namespace recipe_planer.Controllers
         {
             var recipe = handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault();
             builder.addRecipe(recipe);
+
+            return RedirectToAction("CookingList");
+        }
+
+        public IActionResult RemoveFromCookingList(int id)
+        {
+            var recipe = builder.CookingList.Where(r => r.RecipeID == id).FirstOrDefault();
+            builder.CookingList.Remove(recipe);
 
             return RedirectToAction("CookingList");
         }

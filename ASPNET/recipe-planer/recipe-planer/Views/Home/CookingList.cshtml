@@ -5,26 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1>Prepare your cooking list...</h1>
-
-
-@*<h3>Ingredients</h3>
-    <ul>
-           @foreach (var ingredient in Model.SummedIngredients)
-            {
-                string name = ingredient.name;
-                string amount = Convert.ToString(ingredient.amount);
-                string unit = ingredient.unit;
-                string built_ingredient = name + ": " + amount + " " + unit;
-                <li>@built_ingredient</li>
-           }
-
-    </ul>*@
-
-@*@Html.ActionLink("Edit", "EditIngredient", new { id = Model.RecipeID, name = ingredient.name, unit = ingredient.unit })*@
-
-
-<div class="row" style="width:1500px; margin:0 auto; margin-top:50px">
-    <div class="column" style="width:400px">
+<br><br>
+@Html.ActionLink("Clear", "ClearCookingList")
+<br><br>
+<div class="row" style="width:1500px; margin:0 auto">
+    <div class="column">
         <h4>All available recipes</h4>
         <table class="table">
             @foreach (var recipe in Model.AvailableRecipes)
@@ -40,7 +25,7 @@
             }
         </table>
     </div>
-    <div class="column" style="margin-left:50px">
+    <div class="column" style="margin-left:100px">
         <h4>Currently picked recipes</h4>
         <table class="table">
             @foreach (var recipe in Model.CookingList)
@@ -51,6 +36,23 @@
                     </td>
                     <td>
                         @Html.ActionLink("Remove", "RemoveFromCookingList", new { id = recipe.RecipeID })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="column" style="margin-left:100px">
+        <h4>Ingredients in total</h4>
+        <table class="table">
+            @foreach (var ingredient in Model.SummedIngredients)
+            {
+                string name = ingredient.name;
+                string amount = Convert.ToString(ingredient.amount);
+                string unit = ingredient.unit;
+                string built_ingredient = name + ": " + amount + " " + unit;
+                <tr style="font-size:14px; line-height:16px">
+                    <td>
+                        @built_ingredient
                     </td>
                 </tr>
             }

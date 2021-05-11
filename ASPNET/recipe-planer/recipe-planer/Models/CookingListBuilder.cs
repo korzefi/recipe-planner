@@ -55,7 +55,7 @@ namespace recipe_planer.Models
                     return;
                 }
             }
-            SummedIngredients.Add(current_ingredient);
+            SummedIngredients.Add(new Ingredient(current_ingredient));
         }
 
         private void sortIngredientList()

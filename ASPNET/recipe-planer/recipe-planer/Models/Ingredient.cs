@@ -14,6 +14,13 @@ namespace recipe_planer.Models
             this.unit = Unit;
         }
 
+        public Ingredient(Ingredient current_ingredient)
+        {
+            this.name = current_ingredient.name;
+            this.amount = current_ingredient.amount;
+            this.unit = current_ingredient.unit;
+        }
+
         public static bool operator == (Ingredient LHS, Ingredient RHS)
         {
             return LHS.Equals(RHS);
