@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using recipe_planer.Models;
@@ -13,6 +14,9 @@ namespace recipe_planer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        static RecipeHandler handler;
+        static CookingListBuilder builder = new CookingListBuilder();
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -20,28 +24,102 @@ namespace recipe_planer.Controllers
 
         public IActionResult Index()
         {
-            // TODO load recipes from file - FileHandler
-            // TODO pass list of recipes to View - var recipes = FileHandler::GetRecipes()
+            var filepath = "/Users/filip/Desktop/INFA/EGUI/github-korzefi/ASPNET/recipe-planer/recipe-planer/recipes.json";
+            handler = new RecipeHandler(filepath);
+            handler.loadJsonFile();
 
+            return View(handler);
+        }
+
+        public IActionResult Create()
+        {
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Create(IFormCollection form)
         {
-            var filepath = "/Users/filip/Desktop/INFA/EGUI/github-korzefi/ASPNET/recipe-planer/recipe-planer/recipes.json";
-            RecipeHandler recipes = new RecipeHandler(filepath);
+            var name = Convert.ToString(form["Name"]);
+            var description = Convert.ToString(form["Description"]);
+            handler.Recipes.Add(new Recipe(name, description));
+            handler.saveJsonFile();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var recipe_to_be_edited = handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault();
+
+            return View(recipe_to_be_edited);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(IFormCollection form)
+        {
+            var name = Convert.ToString(form["Name"]);
+            var description = Convert.ToString(form["Description"]);
+
+            var recipe_to_remove = handler.Recipes.Where(r => r.Name == name).FirstOrDefault();
+            var ingredients = recipe_to_remove.Ingredients;
+            handler.Recipes.Remove(recipe_to_remove);
+            handler.Recipes.Add(new Recipe(name, description, ingredients));
+            handler.saveJsonFile();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var recipe_to_remove = handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault();
+            handler.Recipes.Remove(recipe_to_remove);
+            handler.saveJsonFile();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult AddIngredient()
+        {
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult EditIngredient(int id, string name, string unit)
+        {
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteIngredient(int id, string name, string unit)
+        {
+            handler.deleteIngredient(id, name, unit);
+
+            return RedirectToAction("Edit", new { id = id });
+
+        }
+
+        public IActionResult CookingList()
+        {
             //var ingredient_list = new List<Ingredient>();
             //ingredient_list.Add(new Ingredient("ingredient", 3.0, "pcs"));
             //recipes.addRecipe(new Recipe("test_recipe", "with some\nmultiline description", ingredient_list));
             //recipes.saveJsonFile();
-            recipes.loadJsonFile();
-            CookingListBuilder cooking_list = new CookingListBuilder();
-            cooking_list.AddRecipe(recipes.Recipes[0]);
-            cooking_list.AddRecipe(recipes.Recipes[1]);
-            cooking_list.getSummedIngredients();
+            builder.AvailableRecipes = handler.Recipes;
 
-            return View(cooking_list);
-            //return View(recipes);
+            return View(builder);
+        }
+
+        public IActionResult ClearCookingList()
+        {
+            builder.CookingList.Clear();
+
+            return RedirectToAction("CookingList");
+        }
+
+        public IActionResult AddToCookingList(int id)
+        {
+            var recipe = handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault();
+            builder.addRecipe(recipe);
+
+            return RedirectToAction("CookingList");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

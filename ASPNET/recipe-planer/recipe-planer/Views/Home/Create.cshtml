@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>EDIT RECIPE</h2>
+
+<form method="post" asp-action="Create">
+    Name:<br>
+    <input type="text" name="Name" size="50">
+    <br><br>
+    Description:<br>
+    <textarea name="Description" cols="150" rows="10"></textarea>
+    <br><br>
+    <input type="submit" name="btn" value="Save">
+</form>

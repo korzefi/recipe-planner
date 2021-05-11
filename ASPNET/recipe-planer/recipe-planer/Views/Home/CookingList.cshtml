@@ -1,0 +1,60 @@
+﻿@model recipe_planer.Models.CookingListBuilder
+
+@{
+    ViewBag.Title = "CookingList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Prepare your cooking list...</h1>
+
+
+@*<h3>Ingredients</h3>
+    <ul>
+           @foreach (var ingredient in Model.SummedIngredients)
+            {
+                string name = ingredient.name;
+                string amount = Convert.ToString(ingredient.amount);
+                string unit = ingredient.unit;
+                string built_ingredient = name + ": " + amount + " " + unit;
+                <li>@built_ingredient</li>
+           }
+
+    </ul>*@
+
+@*@Html.ActionLink("Edit", "EditIngredient", new { id = Model.RecipeID, name = ingredient.name, unit = ingredient.unit })*@
+
+
+<div class="row" style="width:1500px; margin:0 auto; margin-top:50px">
+    <div class="column" style="width:400px">
+        <h4>All available recipes</h4>
+        <table class="table">
+            @foreach (var recipe in Model.AvailableRecipes)
+            {
+                <tr style="font-size:14px; line-height:16px">
+                    <td>
+                        @recipe.Name
+                    </td>
+                    <td>
+                        @Html.ActionLink("Add", "AddToCookingList", new { id = recipe.RecipeID })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="column" style="margin-left:50px">
+        <h4>Currently picked recipes</h4>
+        <table class="table">
+            @foreach (var recipe in Model.CookingList)
+            {
+                <tr style="font-size:14px; line-height:16px">
+                    <td>
+                        @recipe.Name
+                    </td>
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveFromCookingList", new { id = recipe.RecipeID })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

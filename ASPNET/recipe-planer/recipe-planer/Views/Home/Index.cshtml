@@ -1,8 +1,36 @@
-﻿@{
+﻿@model recipe_planer.Models.RecipeHandler
+
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>See this project on my <a href="https://github.com/korzefi/recipe-planner/tree/master/ASPNET/recipe-planer">github</a>.</p>
-</div>
+@*<div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>See this project on my <a href="https://github.com/korzefi/recipe-planner/tree/master/ASPNET/recipe-planer">github</a>.</p>
+    </div>
+
+    <form action="show_ recipes">
+
+    </form>*@
+
+<h1>Recipes</h1>
+
+<p style="font-size:18px">
+    @Html.ActionLink("Create new recipe", "Create")
+</p>
+<table class="table">
+    @foreach (var recipe in Model.Recipes)
+    {
+        <tr style="font-size:16px">
+            <td>
+                @recipe.Name
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = recipe.RecipeID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = recipe.RecipeID })
+            </td>
+        </tr>
+    }
+</table>
+

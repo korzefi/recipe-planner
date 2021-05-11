@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace recipe_planer.Models
 {
     public class CookingListBuilder
     {
+        public List<Recipe> AvailableRecipes { get; set; }
         public List<Recipe> CookingList { get; set; }
-        // TODO SPRAWDZIC CZY TU MOZE BYC PRIVATE
         public List<Ingredient> SummedIngredients { get; set; }
 
         public CookingListBuilder()
@@ -15,29 +16,16 @@ namespace recipe_planer.Models
             SummedIngredients = new List<Ingredient>();
         }
 
-        public void AddRecipe(Recipe recipe)
+        public void addRecipe(Recipe recipe)
         {
             CookingList.Add(recipe);
-            //AddToIngredients(recipe.Ingredients);
         }
-
-        public void RemoveRecipe(Recipe recipe)
+       
+        public List<Ingredient> sumUpIngredients()
         {
-            CookingList.Remove(recipe);
-            //RemoveFromIngredients(recipe.Ingredients);
-        }
-        //TODO JESLI LISTA MUSI BYC PUBLIC, TO ZMIENIC NAZWE - PRZEMYSLEC
-        public List<Ingredient> getSummedIngredients()
-        {
-            //createSummedUpIngredientsList();
-            ////sortIngredientList();
-            //List<Ingredient> result = SummedIngredients;
-            //SummedIngredients.Clear();
-            //return result;
-
             SummedIngredients.Clear();
             createSummedUpIngredientsList();
-            //sortIngredientList();
+            sortIngredientList();
             return SummedIngredients;
         }
 
@@ -45,7 +33,7 @@ namespace recipe_planer.Models
         {
             foreach(var recipe in CookingList)
             {
-                sumUpIngredients(recipe.ingredients);
+                sumUpIngredients(recipe.Ingredients);
             }
         }
 
@@ -68,6 +56,12 @@ namespace recipe_planer.Models
                 }
             }
             SummedIngredients.Add(current_ingredient);
+        }
+
+        private void sortIngredientList()
+        {
+            List<Ingredient> temp = SummedIngredients.OrderBy(o => o.name).ToList();
+            SummedIngredients = temp;
         }
     }
 }

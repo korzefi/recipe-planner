@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace recipe_planer.Models
 {
@@ -19,15 +20,23 @@ namespace recipe_planer.Models
             data_object = new JObject();
         }
 
-        public void addRecipe(Recipe recipe)
+        public void deleteIngredient(int recipeID, string ingredient_name, string unit)
         {
-            Recipes.Add(recipe);
+            var current_recipe = Recipes.Find(r => r.RecipeID == recipeID);
+            var ingredient_to_remove = current_recipe.Ingredients.Find(i => (i.name == ingredient_name && i.unit == unit));
+            current_recipe.Ingredients.Remove(ingredient_to_remove);
         }
 
-        public void removeRecipe(Recipe recipe)
-        {
-            Recipes.Remove(recipe);
-        }
+        //public Recipe findRecipe(int id)
+        //{
+        //    for(int i=0; i<Recipes.Count; i++) {
+        //        if(Recipes[i].RecipeID == id)
+        //        {
+        //            return Recipes[i];
+        //        }
+        //    }
+        //    throw new InvalidOperationException("RECIPE ID FAIL NUMBER");
+        //}
 
         public void loadJsonFile()
         {
@@ -69,7 +78,7 @@ namespace recipe_planer.Models
         {
             for(int i=0; i<Recipes.Count; i++)
             {
-                Recipes[i].description = getDescription(Recipes[i].name);
+                Recipes[i].Description = getDescription(Recipes[i].Name);
             }
         }
 
@@ -91,7 +100,7 @@ namespace recipe_planer.Models
         {
             for (int i=0; i<Recipes.Count; i++)
             {
-                Recipes[i].ingredients = getIngredients(Recipes[i].name);
+                Recipes[i].Ingredients = getIngredients(Recipes[i].Name);
             }
         }
 
@@ -141,15 +150,15 @@ namespace recipe_planer.Models
 
             foreach (var recipe in Recipes)
             {
-                data_object[recipe.name] = buildJsonRecipe(recipe);
+                data_object[recipe.Name] = buildJsonRecipe(recipe);
             }
         }
 
         private JObject buildJsonRecipe(Recipe recipe)
         {
             JObject result = new JObject();
-            result["recipe"] = buildDescription(recipe.description);
-            foreach (var ingredient in recipe.ingredients)
+            result["recipe"] = buildDescription(recipe.Description);
+            foreach (var ingredient in recipe.Ingredients)
             {
                 string ingredient_value = buildIngredientValue(ingredient.amount, ingredient.unit);
                 result[ingredient.name] = ingredient_value;
@@ -161,7 +170,15 @@ namespace recipe_planer.Models
         private JArray buildDescription(string description)
         {
             JArray result = new JArray();
-            result.Add(description);
+            var description_lines = Regex.Split(description, "\r\n|\r|\n");
+            foreach(var line in description_lines)
+            {
+                if (line == "")
+                {
+                    continue;
+                }
+                result.Add(line);
+            }
             return result;
         }
 

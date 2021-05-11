@@ -1,0 +1,50 @@
+﻿@model recipe_planer.Models.Recipe
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>EDIT RECIPE</h2>
+
+<form method="post" asp-action="Edit">
+    Name:<br>
+    <input type="text" name="Name" value="@Model.Name" size="50">
+    <br><br>
+    Description:<br>
+    <textarea name="Description" cols="150" rows="10">@Model.Description</textarea>
+    <br><br>
+    Ingredients:<br>
+    <p style="font-size:18px">
+        @Html.ActionLink("Add ingredient", "AddIngredient")
+    </p>
+    <table class="table">
+        <tr style="font-size:25px">
+            <td><b>name</b></td>
+            <td><b>amount</b></td>
+            <td><b>unit</b></td>
+            <td></td>
+        </tr>
+        @foreach (var ingredient in Model.Ingredients)
+        {
+            <tr>
+                <td>
+                    @ingredient.name
+                </td>
+                <td>
+                    @Convert.ToString(ingredient.amount)
+                </td>
+                <td>
+                    @ingredient.unit
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditIngredient", new { id = Model.RecipeID, name = ingredient.name, unit = ingredient.unit }) |
+                    @Html.ActionLink("Delete", "DeleteIngredient", new { id = Model.RecipeID, name = ingredient.name, unit = ingredient.unit })
+                </td>
+            </tr>
+            }      
+        </table>
+    <input type="submit" name="btn" value="Save">
+</form>
