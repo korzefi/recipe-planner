@@ -46,9 +46,9 @@
         <table class="table">
             @foreach (var ingredient in Model.SummedIngredients)
             {
-                string name = ingredient.name;
-                string amount = Convert.ToString(ingredient.amount);
-                string unit = ingredient.unit;
+                string name = ingredient.Name;
+                string amount = Convert.ToString(ingredient.Amount);
+                string unit = ingredient.Unit;
                 string built_ingredient = name + ": " + amount + " " + unit;
                 <tr style="font-size:14px; line-height:16px">
                     <td>

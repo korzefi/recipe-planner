@@ -23,21 +23,10 @@ namespace recipe_planer.Models
         public void deleteIngredient(int recipeID, string ingredient_name, string unit)
         {
             var current_recipe = Recipes.Find(r => r.RecipeID == recipeID);
-            var ingredient_to_remove = current_recipe.Ingredients.Find(i => (i.name == ingredient_name && i.unit == unit));
+            var ingredient_to_remove = current_recipe.Ingredients.Find(i => (i.Name == ingredient_name && i.Unit == unit));
             current_recipe.Ingredients.Remove(ingredient_to_remove);
         }
-
-        //public Recipe findRecipe(int id)
-        //{
-        //    for(int i=0; i<Recipes.Count; i++) {
-        //        if(Recipes[i].RecipeID == id)
-        //        {
-        //            return Recipes[i];
-        //        }
-        //    }
-        //    throw new InvalidOperationException("RECIPE ID FAIL NUMBER");
-        //}
-
+      
         public void loadJsonFile()
         {
             Recipes.Clear();
@@ -160,8 +149,8 @@ namespace recipe_planer.Models
             result["recipe"] = buildDescription(recipe.Description);
             foreach (var ingredient in recipe.Ingredients)
             {
-                string ingredient_value = buildIngredientValue(ingredient.amount, ingredient.unit);
-                result[ingredient.name] = ingredient_value;
+                string ingredient_value = buildIngredientValue(ingredient.Amount, ingredient.Unit);
+                result[ingredient.Name] = ingredient_value;
             }
 
             return result;

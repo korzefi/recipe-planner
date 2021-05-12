@@ -4,16 +4,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <h2>EDIT RECIPE</h2>
 
 <form method="post" asp-action="Create">
-    Name:<br>
-    <input type="text" name="Name" size="50">
-    <br><br>
-    Description:<br>
+    <h4>Name:</h4>
+    <div class="row" style="width:1500px; margin:0 auto">
+        <div class="column" style="font-size:28px">
+            <input type="text" name="Name" size="50">
+        </div>
+        <div class="column" style="margin-left:100px; margin-top:7px; font-size:18px">
+            <input type="submit" name="SaveBtn" value="Save">
+        </div>
+    </div>
+    <br>
+    <h4>Description:</h4>
     <textarea name="Description" cols="150" rows="10"></textarea>
-    <br><br>
-    <input type="submit" name="btn" value="Save">
 </form>
+<br>
+
+<h4>Ingredients:</h4>
+<h5>To Add ingredients, please edit first name and description</h5>
+

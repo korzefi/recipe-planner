@@ -1,0 +1,58 @@
+﻿@model recipe_planer.Models.Recipe
+
+@{
+    ViewBag.Title = "EditNameDesc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>EDIT RECIPE</h2>
+
+<form method="post" asp-action="EditNameDesc">
+    <h4>Name:</h4>
+    <div class="row" style="width:1500px; margin:0 auto">
+        <div class="column" style="font-size:28px">
+            <input type="text" name="Name" value="@Model.Name" size="50">
+        </div>
+        <div class="column" style="margin-left:100px; margin-top:7px; font-size:18px">
+            @Html.HiddenFor(m => m.RecipeID, new { Value = Model.RecipeID })
+            <input type="submit" name="SaveBtn" value="Save">
+        </div>
+    </div>
+    <br>
+    <h4>Description:</h4>
+    <textarea name="Description" cols="150" rows="10">@Model.Description</textarea>
+</form>
+
+<form method="post" asp-action="Save">
+    <table class="table">
+        <tr style="font-size:20px">
+            <td><b>Name</b></td>
+            <td><b>Amount</b></td>
+            <td><b>Unit</b></td>
+            <td></td>
+        </tr>
+
+        @for (int i = 0; i < Model.Ingredients.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Model.Ingredients[i].Name
+                    @Html.HiddenFor(m => m.Ingredients[i].Name)
+                </td>
+                <td>
+                    @Convert.ToString(Model.Ingredients[i].Amount)
+                    @Html.HiddenFor(m => m.Ingredients[i].Amount)
+                </td>
+                <td>
+                    @Model.Ingredients[i].Unit
+                    @Html.HiddenFor(m => m.Ingredients[i].Unit)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditIngredient", new { id = Model.RecipeID, name = Model.Ingredients[i].Name, unit = Model.Ingredients[i].Unit })
+                    @Html.ActionLink("Remove", "DeleteIngredient", new { id = Model.RecipeID, name = Model.Ingredients[i].Name, unit = Model.Ingredients[i].Unit })
+                </td>
+            </tr>
+        }
+    </table>
+    <br>
+</form>

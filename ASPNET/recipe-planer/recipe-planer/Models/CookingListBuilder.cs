@@ -51,7 +51,7 @@ namespace recipe_planer.Models
             {
                 if (SummedIngredients[i] == current_ingredient)
                 {
-                    SummedIngredients[i].amount += current_ingredient.amount;
+                    SummedIngredients[i].Amount += current_ingredient.Amount;
                     return;
                 }
             }
@@ -60,7 +60,7 @@ namespace recipe_planer.Models
 
         private void sortIngredientList()
         {
-            List<Ingredient> temp = SummedIngredients.OrderBy(o => o.name).ToList();
+            List<Ingredient> temp = SummedIngredients.OrderBy(o => o.Name).ToList();
             SummedIngredients = temp;
         }
     }

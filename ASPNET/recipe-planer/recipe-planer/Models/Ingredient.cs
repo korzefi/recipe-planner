@@ -3,22 +3,26 @@ namespace recipe_planer.Models
 {
     public class Ingredient : IEquatable<Ingredient>
     {
-        public string name;
-        public double amount;
-        public string unit;
+        public string Name { get; set; }
+        public double Amount { get; set; }
+        public string Unit { get; set; }
+
+        public Ingredient()
+        {
+        }
 
         public Ingredient(string Name, double Amount, string Unit)
         {
-            this.name = Name;
-            this.amount = Amount;
-            this.unit = Unit;
+            this.Name = Name;
+            this.Amount = Amount;
+            this.Unit = Unit;
         }
 
         public Ingredient(Ingredient current_ingredient)
         {
-            this.name = current_ingredient.name;
-            this.amount = current_ingredient.amount;
-            this.unit = current_ingredient.unit;
+            this.Name = current_ingredient.Name;
+            this.Amount = current_ingredient.Amount;
+            this.Unit = current_ingredient.Unit;
         }
 
         public static bool operator == (Ingredient LHS, Ingredient RHS)
@@ -33,8 +37,8 @@ namespace recipe_planer.Models
 
         public bool Equals(Ingredient other)
         {
-            bool string_equal = this.name.Equals(other.name);
-            bool unit_equal = this.unit.Equals(other.unit);
+            bool string_equal = this.Name.Equals(other.Name);
+            bool unit_equal = this.Unit.Equals(other.Unit);
 
             return string_equal && unit_equal;
         }

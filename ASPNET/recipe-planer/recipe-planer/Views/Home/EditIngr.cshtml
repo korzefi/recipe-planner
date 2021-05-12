@@ -50,7 +50,7 @@
     </table>
 </form>
 
-<form method="post" asp-action="Save">
+<form method="post" asp-action="SaveIngredient">
     <table class="table">
         <tr style="font-size:20px">
             <td><b>Name</b></td>
@@ -61,6 +61,30 @@
 
         @for (int i = 0; i < Model.Ingredients.Count; i++)
         {
+            if (i == Model.SelectedIngredientIndex)
+            {
+                <tr>
+                    <td>
+                        <input type="text" name="editIngredientName" value="@Model.Ingredients[i].Name">
+                        @Html.HiddenFor(m => m.Ingredients[i].Name)
+                    </td>
+                    <td>
+                        <input type="text" name="editIngredientAmount" value="@Model.Ingredients[i].Amount">
+                        @Html.HiddenFor(m => m.Ingredients[i].Amount)
+                    </td>
+                    <td>
+                        <input type="text" name="editIngredientUnit" value="@Model.Ingredients[i].Unit">
+                        @Html.HiddenFor(m => m.Ingredients[i].Unit)
+                    </td>
+                    <td>
+                        @Html.HiddenFor(m => m.RecipeID)
+                        @Html.HiddenFor(m => m.SelectedIngredientIndex)
+                        <input type="submit" name="btn" value="Save">
+                    </td>
+                </tr>
+                continue;
+            }
+
             <tr>
                 <td>
                     @Model.Ingredients[i].Name
@@ -75,12 +99,10 @@
                     @Html.HiddenFor(m => m.Ingredients[i].Unit)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditIngredient", new { id = Model.RecipeID, name = Model.Ingredients[i].Name, unit = Model.Ingredients[i].Unit }) |
-                    @Html.ActionLink("Remove", "DeleteIngredient", new { id = Model.RecipeID, name = Model.Ingredients[i].Name, unit = Model.Ingredients[i].Unit })
+                    
                 </td>
             </tr>
         }
     </table>
     <br>
-    <input type="submit" name="SaveBtn" style="font-size:18px" value="Save">
 </form>
