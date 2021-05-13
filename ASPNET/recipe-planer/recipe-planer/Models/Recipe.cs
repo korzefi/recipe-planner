@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace recipe_planer.Models
 {
     public class Recipe : IEquatable<Recipe>
     {
+        [Required(ErrorMessage = "Please provide name of recipe")]
         public string Name { get; set; }
         public string Description { get; set; }
         public List<Ingredient> Ingredients { get; set; }

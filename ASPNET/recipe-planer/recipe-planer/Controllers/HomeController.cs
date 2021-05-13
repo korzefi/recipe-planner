@@ -16,7 +16,6 @@ namespace recipe_planer.Controllers
 
         static RecipeHandler handler;
         static CookingListBuilder builder = new CookingListBuilder();
-        static List<Ingredient> ingr_to_be_added;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -42,7 +41,7 @@ namespace recipe_planer.Controllers
         {
             var name = Convert.ToString(form["Name"]);
             var description = Convert.ToString(form["Description"]);
-
+            
             var recipe = new Recipe(name, description);
             handler.Recipes.Add(new Recipe(recipe));
 
