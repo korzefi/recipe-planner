@@ -3,8 +3,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <form method="post" asp-action="Create">
     <h4>Name:</h4>
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <div class="row" style="width:1500px; margin:0 auto">
         <div class="column" style="font-size:28px">
             <input type="text" name="Name" size="50">

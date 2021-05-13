@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <h4>Name:</h4>
 <div class="row" style="width:1500px; margin:0 auto">
     <div class="column" style="font-size:28px">
@@ -22,6 +21,7 @@
 <form method="post" asp-action="AddIngredient">
     <h4>Ingredients:</h4>
     <br>
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <table class="table">
         <tr style="font-size:20px">
             <td><b>Name</b></td>

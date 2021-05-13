@@ -41,16 +41,26 @@ namespace recipe_planer.Controllers
         {
             var name = Convert.ToString(form["Name"]);
             var description = Convert.ToString(form["Description"]);
-            
+            if (name == "")
+            {
+                ModelState.AddModelError("name", "Please provide name of recipe");
+                return View();
+            }
             var recipe = new Recipe(name, description);
             handler.Recipes.Add(new Recipe(recipe));
 
             return RedirectToAction("Edit", new { id = recipe.RecipeID });
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int id, string error_message = "")
         {
             var recipe_to_be_edited = handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault();
+            if (error_message == "Please provide all ingredient data" ||
+                error_message == "Amount field of ingredient should be floating-point type")
+            {
+                ModelState.AddModelError("empty_ingredient", error_message);
+                return View(recipe_to_be_edited);
+            }
 
             return View(recipe_to_be_edited);
         }
@@ -71,6 +81,10 @@ namespace recipe_planer.Controllers
 
             var recipe_to_remove = handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault();
             List<Ingredient> ingredients = recipe_to_remove.Ingredients;
+            if (name == "")
+            {
+                return View(new Recipe(name, description, new List<Ingredient>(ingredients)));
+            }
             handler.Recipes.Remove(recipe_to_remove);
             handler.Recipes.Add(new Recipe(name, description, new List<Ingredient>(ingredients)));
 
@@ -98,11 +112,24 @@ namespace recipe_planer.Controllers
         public IActionResult AddIngredient(IFormCollection form, Recipe recipe)
         {
             var name = Convert.ToString(form["addIngredientName"]);
-            var amount = Convert.ToDouble(form["addIngredientAmount"]);
+            var amount = Convert.ToString(form["addIngredientAmount"]);
             var unit = Convert.ToString(form["addIngredientUnit"]);
             var id = recipe.RecipeID;
+            double amount_converted;
+            if (name == "" || amount == "" || unit == "")
+            {
+                return RedirectToAction("Edit", new { id = id, error_message = "Please provide all ingredient data" });
+            }
+            try
+            {
+                amount_converted = Convert.ToDouble(amount);
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("Edit", new { id = id, error_message = "Amount field of ingredient should be floating-point type" });
+            }
 
-            handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault().Ingredients.Add(new Ingredient(name, amount, unit));
+            handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault().Ingredients.Add(new Ingredient(name, amount_converted, unit));
          
             return RedirectToAction("Edit", new { id = id });
         }
@@ -134,15 +161,29 @@ namespace recipe_planer.Controllers
         {
             var id = recipe.RecipeID;
             var name = Convert.ToString(form["editIngredientName"]);
-            var amount = Convert.ToDouble(form["editIngredientAmount"]);
+            var amount = Convert.ToString(form["editIngredientAmount"]);
             var unit = Convert.ToString(form["editIngredientUnit"]);
             var index = recipe.SelectedIngredientIndex;
+            double amount_converted;
+
+            if (name == "" || amount == "" || unit == "")
+            {
+                return RedirectToAction("Edit", new { id = id, error_message = "Please provide all ingredient data" });
+            }
+            try
+            {
+                amount_converted = Convert.ToDouble(amount);
+            }
+            catch (FormatException)
+            {
+                return RedirectToAction("Edit", new { id = id, error_message = "Amount field of ingredient should be floating-point type" });
+            }
 
             handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault().SelectedIngredientIndex = -1;
 
             var modified_ingr = handler.Recipes.Where(r => r.RecipeID == id).FirstOrDefault().Ingredients[index];
             modified_ingr.Name = name;
-            modified_ingr.Amount = amount;
+            modified_ingr.Amount = amount_converted;
             modified_ingr.Unit = unit;
 
             return RedirectToAction("Edit", new { id = id });
